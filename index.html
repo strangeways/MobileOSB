@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Open Source Bridge 2016</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/icons/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#116db6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="MobilePP">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="application-name" content="MobileOSB">
+  <meta name="msapplication-TileColor" content="#116db6">
+  <meta name="msapplication-TileImage" content="/icons/mstile-144x144.png">
+  <meta name="theme-color" content="#116db6">
+  <meta name="viewport" content="initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script type="text/javascript" src="includes/jquery.xdomainajax.js"></script>
+<script type="text/javascript">
+  function loadOSBEvents() {
+    // $("#results").html("");
+
+    $.ajax({
+      // Append date to query to prevent caching.
+      url: 'http://opensourcebridge.org/events/2016/schedule?'+Date.now(),
+      type: 'GET',
+      datatype: 'html',
+      success: function(res) {
+        var content = $("#content", res.responseText);
+        $("#results").html(content);
+
+        $("span.generic_item").text("Other");
+
+        $("div.concise").on("click", function() {
+          var parent_li = $(this).parentsUntil("ul.calendar_items");
+          $("ul.session_info", parent_li).toggle();
+          return false;
+        });
+
+        // Scroll to the most recent session time
+        var current_time = Date.now();
+        $(".schedule_block > h4 > abbr.dtstart").each(function () {
+          var event_time = Date.parse($(this).attr("title"))
+          if (event_time <= current_time) {
+            $(this)[0].scrollIntoView();
+          }
+          else {
+            return;
+          }
+        });
+      }
+    });
+
+    return false;
+  }
+
+  $(function () {
+    loadOSBEvents();
+  });
+</script>
+<style>
+  body {
+    margin: 0;
+  }
+
+  h1 {
+    background-color: #116db6;
+    margin: 0;
+    padding: 0.5em;
+    text-align: center;
+    font-size: small;
+    color: white;
+  }
+  ul.buttons {
+    text-align: center;
+    padding-left: 0;
+    list-style-type: none;
+    margin: 0.75em;
+  }
+  .buttons li {
+    display: inline-block;
+    margin: 0 0.5em;
+    font-size: small;
+  }
+  .buttons a {
+    background: #116db6;
+    background-image: -webkit-linear-gradient(top, #ddebff, #116db6);
+    background-image: -moz-linear-gradient(top, #ddebff, #116db6);
+    background-image: -ms-linear-gradient(top, #ddebff, #116db6);
+    background-image: -o-linear-gradient(top, #ddebff, #116db6);
+    background-image: linear-gradient(to bottom, #ddebff, #116db6);
+    -webkit-border-radius: 5;
+    -moz-border-radius: 5;
+    border-radius: 3px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: white;
+  }
+  .buttons a:hover {
+    background: #116db6;
+    background-image: -webkit-linear-gradient(top, #116db6, #116db6);
+    background-image: -moz-linear-gradient(top, #116db6, #116db6);
+    background-image: -ms-linear-gradient(top, #116db6, #116db6);
+    background-image: -o-linear-gradient(top, #116db6, #116db6);
+    background-image: linear-gradient(to bottom, #116db6, #116db6);
+    text-decoration: none;
+  }
+
+  #results {
+    margin: 8px;
+  }
+
+  h2.page_title,
+  .calendar_download,
+  ul.session_info,
+  a.favorite {
+    display: none;
+  }
+
+  #content {
+    font-size: small;
+  }
+
+  a.to_top {
+    float: right;
+    margin-top: 0.5em;
+  }
+  h3 {
+    margin: 0 0 0.25em;
+    font-size: 1.5em;
+  }
+
+  .schedule_color_key,
+  .schedule_jump {
+    margin-top: 1em;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.5em;
+  }
+  th,
+  td {
+    vertical-align: top;
+    border: 1px #999 solid;
+    border-collapse: collapse;
+    padding: 0.5em;
+    white-space: normal;    
+  }
+  td[colspan="3"] {
+    width: 48%%;
+  }
+  td[colspan="2"] {
+    width: 32%;
+  }
+  td[colspan="3"]:first-child,
+  td[colspan="2"]:first-child {
+    border-right: none;
+  }
+  td[colspan="2"]:last-child {
+    border-left: none;
+  }
+  td.schedule_block {
+    padding: 0;
+  }
+  td.schedule_block > h4 {
+    margin: 0;
+    padding: 0.25em 0;
+    background-color: #ddebff;
+    text-align: center;
+  }
+
+  ul {
+    margin-top: 0;
+    padding-left: 0;
+    list-style-type: none;
+  }
+  ul.session_info {
+    border-top: 1px gray solid;
+    padding: 0.25em;
+    font-size: 0.9em;
+    color: black;
+  }
+  .session_info li:first-child,
+  .session_info li.location,
+  .session_info li.time,
+  .session_info .description strong:first-child {
+    display: none;
+  }
+  ul.calendar_items {
+    margin: 0.5em 0.25em;
+  }
+  li.vevent {
+    margin-bottom: 0.5em;
+    border-radius: 5px;
+  }
+  li.vevent.generic_item {
+    border: 1px gray solid;
+  }
+  .concise {
+    padding: 0.5em;
+  }
+  a {
+    text-decoration: none;
+  }
+  .room {
+    font-size: 0.8em;
+    font-style: italic;
+    color: #333;
+  }
+
+  /* Business */
+  .light.track-44 { background: #87e99c; border: 1px #2ed953 solid; }
+  .light.track-44:hover { background: #87e99c; }
+  .light.track-44 ul.session_info { background-color: #b4f1c1; border-top: 1px #2ed953 solid; }
+  a.track-44 { color: #2ed953; }
+  /* Culture */
+  .light.track-45 { background: #49d0f6; border: 1px #0bacd9 solid; }
+  .light.track-45:hover { background: #49d0f6; }
+  .light.track-45 ul.session_info { background-color: #75dbf8; border-top: 1px #0bacd9 solid; }
+  /* Hacks */
+  .light.track-46 { background: #d08fea; border: 1px #aa34d9 solid; }
+  .light.track-46:hover { background: #d08fea; }
+  .light.track-46 ul.session_info { background-color: #e3bcf2; border-top: 1px #aa34d9 solid; }
+  /* Practice */
+  .light.track-47 { background: #ffd358; border: 1px #f5b400 solid; }
+  .light.track-47:hover { background: #ffd358; }
+  .light.track-47 ul.session_info { background-color: #ffe089; border-top: 1px #f5b400 solid; }
+  /* Theory */
+  .light.track-48 { background: #ea9191; border: 1px #d93636 solid; }
+  .light.track-48:hover { background: #ea9191; }
+  .light.track-48 ul.session_info { background-color: #f3bfbf; border-top: 1px #d93636 solid; }
+  /* Birds of a Feather session */
+  .light.track-49 { background: #d99749; border: 1px #ab6d24 solid; }
+  .light.track-49:hover { background: #d99749; }
+  .light.track-49 ul.session_info { background-color: #e0aa6b; border-top: 1px #ab6d24 solid; }
+
+  .vevent ul.session_info { background-color: white !important; }
+
+  .schedule_color_key {
+    line-height: 1.5em;
+    float: right;
+    width: 60%;
+    margin-top: 0;
+  }
+  .schedule_jump {
+    width: 40%;
+    line-height: 1.5em;
+  }
+  .schedule_color_key strong,
+  .definition.light {
+    margin: 2px;
+    padding: 0 1px 0 3px;
+  }
+  .definition.light.generic_item {
+    border: 1px gray solid;
+    padding-right: 3px;
+  }
+</style>
+</head>
+<body>
+
+  <h1>Open Source Bridge 2016</h1>
+
+  <ul class="buttons">
+    <li><a href="#" onclick="return loadOSBEvents()">reload events</a></li>
+    <li><a href="http://opensourcebridge.org/events/2016/schedule">Open Source Bridge</a></li>
+    <li><a href="https://github.com/strangeways/MobileOSB">GitHub</a></li>
+  </ul>
+
+  <div id="results"></div>
+
+</body>
+</html>

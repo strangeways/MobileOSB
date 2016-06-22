@@ -42,6 +42,21 @@
 
         $("span.generic_item").text("Other");
 
+        // Convert relative URLs to absolute URLs so links go to the OSBridge website.
+        // This is adapted from the code at the following page:
+        // http://aknosis.com/2011/07/17/using-jquery-to-rewrite-relative-urls-to-absolute-urls-revisited/
+        $('a[href]').not('[href^="http"],[href^="mailto:"],[href^="#"]').each(function() {
+          // Use .attr() to modify the href, when you provide a callback function
+          // the arguments passed are the attribute index and its value
+          $(this).attr('href', function(index, value) {
+            if (value.substr(0,1) !== "/") {
+              value = '/' + value;
+            }
+            return "http://opensourcebridge.org" + value;
+          });
+        });
+
+        // Click to open/close the session info.
         $("div.concise").on("click", function() {
           var parent_li = $(this).parentsUntil("ul.calendar_items");
           $("ul.session_info", parent_li).toggle();
@@ -194,7 +209,6 @@
     font-size: 0.9em;
     color: black;
   }
-  .session_info li:first-child,
   .session_info li.location,
   .session_info li.time,
   .session_info .description strong:first-child {

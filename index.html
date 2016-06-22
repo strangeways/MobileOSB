@@ -49,9 +49,10 @@
         });
 
         // Scroll to the most recent session time
-        var current_time = Date.now();
+        // Need to subtract 7 hours (for PDT) to be able to compare with Date.parse() below.
+        var current_time = Date.now() - 25200000;
         $(".schedule_block > h4 > abbr.dtstart").each(function () {
-          var event_time = Date.parse($(this).attr("title"))
+          var event_time = Date.parse($(this).attr("title"));
           if (event_time <= current_time) {
             $(this)[0].scrollIntoView();
           }

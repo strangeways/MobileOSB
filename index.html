@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Open Source Bridge 2016</title>
+  <title>Open Source Bridge 2017</title>
   <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-touch-icon-72x72.png">
@@ -26,18 +26,22 @@
   <meta name="theme-color" content="#116db6">
   <meta name="viewport" content="initial-scale=1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-<script type="text/javascript" src="includes/jquery.xdomainajax.js"></script>
 <script type="text/javascript">
+  // Cross-origin requests handled via CORS Anywhere:
+  // https://github.com/Rob--W/cors-anywhere/
+
   function loadOSBEvents() {
-    // $("#results").html("");
+    $("#results").html('<img src="images/spinner.gif" /> Loading...');
+
+    // Append date to query to prevent caching.
+    var url = 'http://opensourcebridge.org/events/2017/schedule?'+Date.now();
 
     $.ajax({
-      // Append date to query to prevent caching.
-      url: 'http://opensourcebridge.org/events/2016/schedule?'+Date.now(),
+      url: 'https://cors-anywhere.herokuapp.com/' + url,
       type: 'GET',
       datatype: 'html',
       success: function(res) {
-        var content = $("#content", res.responseText);
+        var content = $("#content", res);
         $("#results").html(content);
 
         $("span.generic_item").text("Other");
@@ -76,7 +80,10 @@
           }
         });
       }
-    });
+    })
+      .fail(function() {
+        $("#results").html('Unable to load calendar. Please try again.');
+      });
 
     return false;
   }
@@ -236,31 +243,30 @@
     color: #333;
   }
 
-  /* Business */
-  .light.track-44 { background: #87e99c; border: 1px #2ed953 solid; }
-  .light.track-44:hover { background: #87e99c; }
-  .light.track-44 ul.session_info { background-color: #b4f1c1; border-top: 1px #2ed953 solid; }
-  a.track-44 { color: #2ed953; }
-  /* Culture */
-  .light.track-45 { background: #49d0f6; border: 1px #0bacd9 solid; }
-  .light.track-45:hover { background: #49d0f6; }
-  .light.track-45 ul.session_info { background-color: #75dbf8; border-top: 1px #0bacd9 solid; }
-  /* Hacks */
-  .light.track-46 { background: #d08fea; border: 1px #aa34d9 solid; }
-  .light.track-46:hover { background: #d08fea; }
-  .light.track-46 ul.session_info { background-color: #e3bcf2; border-top: 1px #aa34d9 solid; }
-  /* Practice */
-  .light.track-47 { background: #ffd358; border: 1px #f5b400 solid; }
-  .light.track-47:hover { background: #ffd358; }
-  .light.track-47 ul.session_info { background-color: #ffe089; border-top: 1px #f5b400 solid; }
-  /* Theory */
-  .light.track-48 { background: #ea9191; border: 1px #d93636 solid; }
-  .light.track-48:hover { background: #ea9191; }
-  .light.track-48 ul.session_info { background-color: #f3bfbf; border-top: 1px #d93636 solid; }
+  /* _Activism */
+  .light.track-50 { background: #b4f1c1; border: 1px #2ed953 solid; }
+  .light.track-50:hover { background: #87e99c; }
+  .light.track-50 ul.session_info { background: #b4f1c1; border-top: 1px #2ed953 solid;}
   /* Birds of a Feather session */
-  .light.track-49 { background: #d99749; border: 1px #ab6d24 solid; }
-  .light.track-49:hover { background: #d99749; }
-  .light.track-49 ul.session_info { background-color: #e0aa6b; border-top: 1px #ab6d24 solid; }
+  .light.track-56 { background: #e0aa6b; border: 1px #ab6d24 solid; }
+  .light.track-56:hover { background: #d99749; }
+  .light.track-56 ul.session_info { background-color: #e0aa6b; border-top: 1px #ab6d24 solid; }
+  /* Culture */
+  .light.track-52 { background: #75dbf8; border: 1px #0bacd9 solid; }
+  .light.track-52:hover { background: #49d0f6; }
+  .light.track-52 ul.session_info { background-color: #75dbf8; border-top: 1px #0bacd9 solid; }
+  /* Hacks */
+  .light.track-53 { background: #e3bcf2; border: 1px #aa34d9 solid; }
+  .light.track-53:hover { background: #d08fea; }
+  .light.track-53 ul.session_info { background-color: #e3bcf2; border-top: 1px #aa34d9 solid; }
+  /* Practice */
+  .light.track-54 { background: #ffe089; border: 1px #f5b400 solid; }
+  .light.track-54:hover { background: #ffd358; }
+  .light.track-54 ul.session_info { background-color: #ffe089; border-top: 1px #f5b400 solid; }
+  /* Theory */
+  .light.track-55 { background: #f3bfbf; border: 1px #d93636 solid; }
+  .light.track-55:hover { background: #ea9191; }
+  .light.track-55 ul.session_info { background-color: #f3bfbf; border-top: 1px #d93636 solid; }
 
   .vevent ul.session_info { background-color: white !important; }
 
@@ -287,11 +293,11 @@
 </head>
 <body>
 
-  <h1>Open Source Bridge 2016</h1>
+  <h1>Open Source Bridge 2017</h1>
 
   <ul class="buttons">
     <li><a href="#" onclick="return loadOSBEvents()">reload events</a></li>
-    <li><a href="http://opensourcebridge.org/events/2016/schedule">Open Source Bridge</a></li>
+    <li><a href="http://opensourcebridge.org/events/2017/schedule">Open Source Bridge</a></li>
     <li><a href="https://github.com/strangeways/MobileOSB">GitHub</a></li>
   </ul>
 

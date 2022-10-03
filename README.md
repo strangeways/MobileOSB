@@ -9,10 +9,12 @@ The official Open Source Bridge website is at http://opensourcebridge.org/events
 
 Previously, the Open Source Bridge calendar was not very mobile-friendly, so this was an attempt to quickly provide an alternative that loaded and displayed the calendar HTML from the Open Source Bridge site but with custom CSS applied.
 
-Before:
+## Screenshots
+
+### Before:
 
 ![Before](./osb-orig.jpg)
 
-After:
+### After:
 
 ![After](./osb-new.jpg)
